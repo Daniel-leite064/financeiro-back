@@ -26,7 +26,7 @@ async function run() {
 
     const PORT = process.env.PORT || 3333
 
-    // await AppDataSource.initialize()
+    await AppDataSource.initialize()
 
     Routes.forEach(route => {
 
