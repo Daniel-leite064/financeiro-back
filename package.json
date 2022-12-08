@@ -1,8 +1,7 @@
 {
     "name": "financeiro-back",
-	"description": "Boilerplate gerado pelo pacote lg-cli-tool criado por @luiys no github",
-    "version": "0.0.1",
     "description": "Boilerplate de express com typeorm criado por @luiys no github",
+    "version": "0.0.1",
     "license": "MIT",
     "devDependencies": {
         "@types/cors": "^2.8.12",
@@ -27,6 +26,7 @@
         "express": "^4.15.4",
         "helmet": "^5.0.2",
         "morgan": "^1.10.0",
+        "mssql": "^9.0.1",
         "nodemailer": "^6.7.2",
         "pg": "^8.7.3",
         "rate-limiter-flexible": "^2.3.6",

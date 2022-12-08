@@ -14,6 +14,12 @@ export const AppDataSource = new DataSource({
     database: <string>process.env.DB_NAME,
     synchronize: false,
     entities: [...Tables],
+    extra: {
+        trustServerCertificate: true,
+    },
+    options: {
+        encrypt: false
+    }
 
 })
 
