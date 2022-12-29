@@ -9,3 +9,6 @@ echo executing script...
 
 # run the init script to create the DB and the tables in /table
 /opt/mssql-tools/bin/sqlcmd -S 0.0.0.0 -U sa -P $password -i ./setup.sql
+sleep $wait_time
+echo executing script create table...
+/opt/mssql-tools/bin/sqlcmd -S 0.0.0.0 -U sa -P $password -i ./createtable.sql
