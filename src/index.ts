@@ -24,6 +24,7 @@ async function run() {
         .use(express.urlencoded({ extended: true }))
         .use(limitRate)
 
+
     const PORT = process.env.PORT || 3333
 
     await AppDataSource.initialize()
@@ -31,6 +32,7 @@ async function run() {
     Routes.forEach(route => {
 
         (app as any)[route.method](route.route, async (req: Request, res: Response, next: NextFunction) => {
+
 
             const result = await (new (route.controller as any))[route.action](req, res, next)
             const isObject = typeof result === 'object'

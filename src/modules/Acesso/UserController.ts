@@ -1,37 +1,54 @@
-//!Exemplo de controller
+import { Request } from 'express'
+import { AppDataSource } from '../../connection'
+import { BadRequestException } from '../../utils/errors/400/BadRequestException'
+import { Delete, Get, Post, Put } from '../../utils/decorators/Methods'
+import { SystbUsuarioSistema } from '../../entity/SystbUsuarioSistema'
 
-// import { Request } from 'express'
-// import { Pessoa } from '../../entity/Pessoa'
-// import { AppDataSource } from '../../connection'
-// import { BadRequestException } from '../../utils/errors/400/BadRequestException'
-// import { Get, Post } from '../../utils/decorators/Methods'
+export class UserController {
 
-// export class UserController {
+    private defaultRepository = AppDataSource.getRepository(SystbUsuarioSistema)
 
-//     private defaultRepository = AppDataSource.getRepository(Pessoa)
+    @Get('/users')
+    all() {
+        return this.defaultRepository.find()
+    }
 
-//     @Get('/users')
-//     all() {
+    @Get('/user/:id')
+    one(req: Request) {
+        return this.defaultRepository.findOne({where: {id:Number(req.params.id)}})
+    }
 
-//         return this.defaultRepository.find()
+    @Post('/users')
+    async save(req: Request) {
 
-//     }
+        const user = {} as SystbUsuarioSistema
 
-//     @Get('/users/:id')
-//     one(request: Request) {
+        user.login = req.body.login
+        user.senha = req.body.senha
+        user.idUsuarioCadastro = 1
 
-//         const pessoa = this.defaultRepository.findOne({ where: { id: Number(request.params.id) } })
-//         if (!pessoa) throw new BadRequestException('Usuário nào encontrado')
+        return await this.defaultRepository.save(user)
+    }
 
-//         return pessoa
+    @Put('/users/:id')
+    async change(req: Request) {
+        if (!req.params.id) throw new BadRequestException('ID não foi informado')
+        const user = await this.defaultRepository.findOne(
+            { where: { id: Number(req.params.id) }}
+        )
+        if(!user) throw new BadRequestException('Usuário não foi encontrado')
+            
+        user.senha = req.body.senha
+        
+        return await this.defaultRepository.save(user)
+    }
 
-//     }
 
-//     @Post('/users')
-//     save(request: Request) {
+    @Delete('/users/:id')
+    remove(req: Request) {
 
-//         return this.defaultRepository.save(request.body)
 
-//     }
 
-// }
+    }
+
+}

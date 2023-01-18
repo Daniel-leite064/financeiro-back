@@ -1,8 +1,8 @@
-//import { Exemplo } from './Exemplo' //! Importa a entidade
+import { SystbUsuarioSistema } from "./SystbUsuarioSistema"
 
 export const Tables = {
     *[Symbol.iterator]() {
-        //yield Exemplo //! Adiciona a entidade ao array
+       yield SystbUsuarioSistema
 
     }
 }

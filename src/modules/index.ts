@@ -1,8 +1,7 @@
 
-import { LogController } from './Sistema/LogController'
-import { SistemaController } from './Sistema/SistemaController'
+import { UserController } from './Acesso/UserController'
 
 export const controllers = [
-    SistemaController,
-    LogController,
+    UserController
+
 ]
