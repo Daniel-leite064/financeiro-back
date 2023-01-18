@@ -3,19 +3,28 @@ import { AppDataSource } from '../../connection'
 import { BadRequestException } from '../../utils/errors/400/BadRequestException'
 import { Delete, Get, Post, Put } from '../../utils/decorators/Methods'
 import { SystbUsuarioSistema } from '../../entity/SystbUsuarioSistema'
+import { UnauthorizedException } from '../../utils/errors/400/UnauthorizedException'
+import crypto from '../../utils/crypto'
 
 export class UserController {
 
     private defaultRepository = AppDataSource.getRepository(SystbUsuarioSistema)
 
-    @Get('/users')
-    all() {
-        return this.defaultRepository.find()
+    @Post('/users/login')
+    async login(request: Request) {
+        const { login, senha } = request.body
+        const user = await this.defaultRepository.findOne({ where: { login: login } })
+
+        if (!user) throw new UnauthorizedException('Usuário não encontrado')
+        if (user.senha !== senha) throw new UnauthorizedException('Senha Incorreta')
+
+        return user
     }
+
 
     @Get('/user/:id')
     one(req: Request) {
-        return this.defaultRepository.findOne({where: {id:Number(req.params.id)}})
+        return this.defaultRepository.findOne({ where: { id: Number(req.params.id) } })
     }
 
     @Post('/users')
@@ -23,6 +32,7 @@ export class UserController {
 
         const user = {} as SystbUsuarioSistema
 
+        user.id = req.body.id
         user.login = req.body.login
         user.senha = req.body.senha
         user.idUsuarioCadastro = 1
@@ -34,20 +44,27 @@ export class UserController {
     async change(req: Request) {
         if (!req.params.id) throw new BadRequestException('ID não foi informado')
         const user = await this.defaultRepository.findOne(
-            { where: { id: Number(req.params.id) }}
+            { where: { id: Number(req.params.id) } }
         )
-        if(!user) throw new BadRequestException('Usuário não foi encontrado')
-            
+        if (!user) throw new BadRequestException('Usuário não foi encontrado')
+
         user.senha = req.body.senha
-        
+
         return await this.defaultRepository.save(user)
     }
 
 
     @Delete('/users/:id')
-    remove(req: Request) {
+    async remove(req: Request) {
+        if (!req.params.id) throw new BadRequestException('ID não foi informado')
+        const user = await this.defaultRepository.findOne(
+            { where: { id: Number(req.params.id) } }
+        )
+        if (!user) throw new BadRequestException('Usuário não foi encontrado')
 
+        user.dtExclusao = new Date
 
+        return await this.defaultRepository.save(user)
 
     }
 
