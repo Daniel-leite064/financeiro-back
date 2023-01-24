@@ -1,4 +1,9 @@
 USE FINANCEIRO_DB;
 GO
-CREATE TABLE systb_usuario_sistema (id INT PRIMARY KEY NOT NULL, login VARCHAR (50), senha VARCHAR (MAX), idUsuarioCadastro int null, dtExclusao datetime null);
+CREATE TABLE systb_usuario_sistema 
+(id INT IDENTITY(1,1) PRIMARY KEY ,
+login VARCHAR (200) not null,
+senha VARCHAR (MAX) not null,
+idUsuarioCadastro int null,
+dtExclusao datetime null);
 GO

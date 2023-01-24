@@ -1,16 +1,16 @@
-import { Column, Entity, Index } from "typeorm";
+import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 
-@Index("PK__systb_us__3213E83F87911B1B", ["id"], { unique: true })
+@Index("PK__systb_us__3213E83F04C7FD42", ["id"], { unique: true })
 @Entity("systb_usuario_sistema", { schema: "dbo" })
 export class SystbUsuarioSistema {
-  @Column("int", { primary: true, name: "id" })
+  @PrimaryGeneratedColumn({ type: "int", name: "id" })
   id: number;
 
-  @Column("varchar", { name: "login", nullable: true, length: 50 })
-  login: string | null;
+  @Column("varchar", { name: "login", length: 200 })
+  login: string;
 
-  @Column("varchar", { name: "senha", nullable: true })
-  senha: string | null;
+  @Column("varchar", { name: "senha" })
+  senha: string;
 
   @Column("int", { name: "idUsuarioCadastro", nullable: true })
   idUsuarioCadastro: number | null;

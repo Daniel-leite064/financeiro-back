@@ -2,9 +2,8 @@ import { Request } from 'express'
 import { AppDataSource } from '../../connection'
 import { BadRequestException } from '../../utils/errors/400/BadRequestException'
 import { Delete, Get, Post, Put } from '../../utils/decorators/Methods'
-import { SystbUsuarioSistema } from '../../entity/SystbUsuarioSistema'
 import { UnauthorizedException } from '../../utils/errors/400/UnauthorizedException'
-import crypto from '../../utils/crypto'
+import { SystbUsuarioSistema } from '../../entity/SystbUsuarioSistema'
 
 export class UserController {
 
@@ -32,7 +31,6 @@ export class UserController {
 
         const user = {} as SystbUsuarioSistema
 
-        user.id = req.body.id
         user.login = req.body.login
         user.senha = req.body.senha
         user.idUsuarioCadastro = 1
